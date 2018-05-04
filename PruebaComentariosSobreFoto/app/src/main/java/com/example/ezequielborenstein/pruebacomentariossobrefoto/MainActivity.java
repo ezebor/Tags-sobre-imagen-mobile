@@ -6,9 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.os.Handler;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,14 +28,15 @@ public class MainActivity extends AppCompatActivity{
 
         final ImageView base_image = (ImageView)findViewById(R.id.base_image_id);
         base_image.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+
+            final Handler handler = new Handler();
+            int touchX;
+            int touchY;
+
+            Runnable mLongPressed = new Runnable() {
+                public void run() {
                     int[] viewCoords = new int[2];
                     base_image.getLocationOnScreen(viewCoords);
-
-                    int touchX = (int) event.getX();
-                    int touchY = (int) event.getY();
 
                     RelativeLayout layoutOfImage = (RelativeLayout) findViewById(R.id.principal_id);
 
@@ -51,9 +52,24 @@ public class MainActivity extends AppCompatActivity{
 
                     layoutOfImage.addView(commentTag, params);
                     contador = contador + 1;
-                    return true;
                 }
-                return false;
+            };
+
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        touchX = (int) event.getX();
+                        touchY = (int) event.getY();
+                        handler.postDelayed(mLongPressed, 500);
+                        break;
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_MOVE:
+                        handler.removeCallbacks(mLongPressed);
+                        break;
+                }
+                return true;
             }
         });
     }
