@@ -46,9 +46,10 @@ public class MainActivity extends AppCompatActivity{
 
             Runnable mLongPressed = new Runnable() {
                 public void run() {
-                    int[] viewCoords = new int[2];
+                    // Hide toast if exists
+                    Tag.hideCurrentToast();
 
-                    numberOfTag = TagDrawer.drawTag(baseImage, viewCoords, (RelativeLayout) findViewById(R.id.tags_layout_id), touchX, touchY,
+                    numberOfTag = TagDrawer.drawTag(baseImage, (RelativeLayout) findViewById(R.id.tags_layout_id), touchX, touchY,
                             centralPositionOfTag, numberOfTag, tagsAdded);
 
                     EditText commentBox = ((EditText)findViewById(R.id.comment_box_id));
@@ -62,6 +63,9 @@ public class MainActivity extends AppCompatActivity{
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
+                // Hide toast if exists
+                Tag.hideCurrentToast();
+
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         touchX = (int) event.getX();

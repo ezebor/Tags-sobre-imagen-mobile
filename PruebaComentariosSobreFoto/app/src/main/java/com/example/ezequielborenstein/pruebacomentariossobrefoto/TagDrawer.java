@@ -7,16 +7,13 @@ import java.util.Map;
 
 public class TagDrawer{
 
-    public static Integer drawTag(ImageView baseImage, int[] viewCoords, RelativeLayout layoutOfImage,
-                          int touchX, int touchY, int centralPositionOfTag, int numberOfTag, Map<Integer, Tag> tagsAdded){
+    public static Integer drawTag(ImageView baseImage, RelativeLayout layoutOfImage, int touchX, int touchY, int centralPositionOfTag,
+                                  int numberOfTag, Map<Integer, Tag> tagsAdded){
+        int[] viewCoords = new int[2];
         baseImage.getLocationOnScreen(viewCoords);
 
         // Tags
-        Tag tag = new Tag(baseImage.getContext(),
-                centralPositionOfTag,
-                touchX - centralPositionOfTag,
-                touchY - centralPositionOfTag,
-                numberOfTag);
+        Tag tag = new Tag(baseImage.getContext(), centralPositionOfTag, touchX, touchY, numberOfTag);
 
         int size = 2 * centralPositionOfTag;
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(size, size);

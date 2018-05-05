@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
@@ -17,23 +18,40 @@ public class Tag extends View{
     private int numberOfTag;
     private String comment;
 
+    public static Toast CURRENT_TOAST;
+
     @SuppressLint("ClickableViewAccessibility")
     public Tag(final Context context){
         super(context);
         this.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                Toast.makeText(context, comment, Toast.LENGTH_SHORT).show();
+            public boolean onTouch(View tag, MotionEvent event) {
+                hideCurrentToast();
+
+                CURRENT_TOAST = Toast.makeText(context, comment, Toast.LENGTH_LONG);
+                CURRENT_TOAST.setGravity(Gravity.TOP|Gravity.LEFT, tag.getLeft(), tag.getTop() + 2 * tag.getHeight());
+
+                View view = CURRENT_TOAST.getView();
+                view.setBackgroundResource(android.R.drawable.dialog_holo_dark_frame);
+                CURRENT_TOAST.setView(view);
+
+                CURRENT_TOAST.show();
                 return true;
             }
         });
     }
 
-    public Tag(final Context context, int centralPositionOfTag, int leftMargin, int topMargin, int numberOfTag){
+    public static void hideCurrentToast(){
+        if(CURRENT_TOAST != null){
+            CURRENT_TOAST.cancel();
+        }
+    }
+
+    public Tag(final Context context, int centralPositionOfTag, int touchX, int touchY, int numberOfTag){
         this(context);
         this.centralPositionOfTag = centralPositionOfTag;
-        this.leftMargin = leftMargin;
-        this.topMargin = topMargin;
+        this.leftMargin = touchX - centralPositionOfTag;
+        this.topMargin = touchY - centralPositionOfTag;
         this.numberOfTag = numberOfTag;
     }
 
