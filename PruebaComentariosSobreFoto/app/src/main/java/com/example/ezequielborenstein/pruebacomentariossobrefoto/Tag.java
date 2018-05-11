@@ -6,10 +6,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Toast;
+import android.view.inputmethod.InputMethodManager;
 
 public class Tag extends View{
     private int centralPositionOfTag;
@@ -18,41 +17,40 @@ public class Tag extends View{
     private int numberOfTag;
     private String comment;
 
-    public static Toast CURRENT_TOAST;
-
     @SuppressLint("ClickableViewAccessibility")
     public Tag(final Context context){
         super(context);
         this.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View tag, MotionEvent event) {
-                hideCurrentToast();
-
-                CURRENT_TOAST = Toast.makeText(context, comment, Toast.LENGTH_LONG);
-                CURRENT_TOAST.setGravity(Gravity.TOP|Gravity.LEFT, tag.getLeft(), tag.getTop() + 2 * tag.getHeight());
-
-                View view = CURRENT_TOAST.getView();
-                view.setBackgroundResource(android.R.drawable.dialog_holo_dark_frame);
-                CURRENT_TOAST.setView(view);
-
-                CURRENT_TOAST.show();
+                setNextToComment();
                 return true;
             }
         });
     }
 
-    public static void hideCurrentToast(){
-        if(CURRENT_TOAST != null){
-            CURRENT_TOAST.cancel();
-        }
+    public void setNextToComment(){
+        // Tag next to comment box
+        ViewsController.getNumberOverTag().setText("" + this.numberOfTag);
+        ViewsController.getTagAndNumberLayout().setVisibility(VISIBLE);
+
+        // Comment box
+        ViewsController.getCommentBox().setEnabled(true);
+        ViewsController.getCommentBox().setText(this.comment);
+        ViewsController.getCommentBox().setSelection(ViewsController.getCommentBox().getText().length());
+
+        // Button to send comment
+        ViewsController.getSendCommentButton().setEnabled(true);
+
+        // Open keyboard
+        ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
     }
 
-    public Tag(final Context context, int centralPositionOfTag, int touchX, int touchY, int numberOfTag){
+    public Tag(final Context context, int centralPositionOfTag, int touchX, int touchY){
         this(context);
         this.centralPositionOfTag = centralPositionOfTag;
         this.leftMargin = touchX - centralPositionOfTag;
         this.topMargin = touchY - centralPositionOfTag;
-        this.numberOfTag = numberOfTag;
     }
 
     // Este método es el que dibuja dentro del canvas
@@ -97,11 +95,11 @@ public class Tag extends View{
         return topMargin;
     }
 
-    public int getNumberOfTag() {
-        return numberOfTag;
-    }
-
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public void setNumberOfTag(Integer numberOfTag) {
+        this.numberOfTag = numberOfTag;
     }
 }

@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:id="@+id/principal_id">
+    android:id="@+id/principal_id"
+    android:background="@color/colorWhite">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,25 +18,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:gravity="center_horizontal"
+            android:gravity="center"
             android:layout_margin="10dp"
             android:weightSum="100">
 
-            <TextView
+            <RelativeLayout
+                android:id="@+id/tag_and_number_id"
                 android:layout_width="0dp"
-                android:layout_weight="30"
-                android:layout_height="wrap_content"
-                android:text="Comentario:"
-                android:textSize="15dp"/>
+                android:layout_height="70dp"
+                android:layout_weight="20">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:src="@drawable/tag_of_comment" />
+
+                <TextView
+                    android:id="@+id/tag_number_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="70dp"
+                    android:gravity="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="25dp"/>
+
+            </RelativeLayout>
 
             <EditText
                 android:id="@+id/comment_box_id"
                 android:layout_width="0dp"
-                android:layout_weight="70"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
+                android:layout_weight="60"
+                android:textAlignment="textStart"
                 android:textSize="15dp"
-                android:inputType="text"
+                android:inputType="textMultiLine"
                 android:imeOptions="actionDone"/>
+
+            <Button
+                android:id="@+id/apply_comment_id"
+                android:layout_width="0dp"
+                android:layout_height="70dp"
+                android:layout_weight="20"
+                android:background="@android:drawable/ic_menu_send"/>
 
         </LinearLayout>
 
