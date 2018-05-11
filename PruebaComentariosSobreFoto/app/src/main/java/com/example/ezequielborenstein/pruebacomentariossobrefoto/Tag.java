@@ -41,9 +41,6 @@ public class Tag extends View{
 
         // Button to send comment
         ViewsController.getSendCommentButton().setEnabled(true);
-
-        // Open keyboard
-        ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
     }
 
     public Tag(final Context context, int centralPositionOfTag, int touchX, int touchY){

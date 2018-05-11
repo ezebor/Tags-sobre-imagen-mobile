@@ -16,17 +16,18 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80dp"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_margin="10dp"
-            android:weightSum="100">
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
 
             <RelativeLayout
                 android:id="@+id/tag_and_number_id"
-                android:layout_width="0dp"
-                android:layout_height="70dp"
-                android:layout_weight="20">
+                android:layout_width="80dp"
+                android:layout_height="match_parent"
+                android:gravity="center">
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -40,27 +41,43 @@
                     android:gravity="center"
                     android:textColor="@color/colorWhite"
                     android:textSize="25dp"/>
-
             </RelativeLayout>
 
-            <EditText
-                android:id="@+id/comment_box_id"
-                android:layout_width="0dp"
-                android:layout_height="100dp"
-                android:layout_weight="60"
-                android:textAlignment="textStart"
-                android:textSize="15dp"
-                android:inputType="textMultiLine"
-                android:imeOptions="actionDone"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="end|center"
+                android:layout_margin="10dp">
 
-            <Button
-                android:id="@+id/apply_comment_id"
-                android:layout_width="0dp"
-                android:layout_height="70dp"
-                android:layout_weight="20"
-                android:background="@android:drawable/ic_menu_send"/>
+                <Button
+                    android:id="@+id/apply_comment_id"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@android:drawable/ic_input_add"/>
 
+                <Button
+                    android:id="@+id/edit_comment_id"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@android:drawable/ic_menu_edit"/>
+
+                <Button
+                    android:id="@+id/delete_comment_id"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:background="@android:drawable/ic_delete"/>
+            </LinearLayout>
         </LinearLayout>
+
+        <EditText
+            android:id="@+id/comment_box_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="top"
+            android:textSize="15dp"
+            android:inputType="textMultiLine"
+            android:imeOptions="actionDone"
+            android:layout_margin="20dp"/>
 
     </LinearLayout>
 

@@ -5,12 +5,14 @@
     android:layout_height="wrap_content"
     tools:context=".MainActivity"
     android:id="@+id/tags_layout_id"
-    android:layout_margin="10dp">
+    android:layout_marginTop="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginLeft="10dp">
 
     <ImageView
         android:id="@+id/base_image_id"
         android:layout_width="350dp"
-        android:layout_height="400dp"
+        android:layout_height="300dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/example_image" />
