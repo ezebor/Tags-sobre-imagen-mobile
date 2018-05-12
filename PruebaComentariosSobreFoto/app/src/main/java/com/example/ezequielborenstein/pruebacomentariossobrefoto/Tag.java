@@ -38,6 +38,7 @@ public class Tag extends View{
         ViewsController.getCommentBox().setEnabled(false);
         ViewsController.getCommentBox().setText(this.comment);
         ViewsController.getCommentBox().setVisibility(VISIBLE);
+        ViewsController.getCommentBox().setTextColor(Color.BLACK);
 
         ViewsController.getAddCommentButton().setVisibility(VISIBLE);
         ViewsController.getEditCommentButton().setVisibility(VISIBLE);

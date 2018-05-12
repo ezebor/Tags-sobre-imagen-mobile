@@ -107,8 +107,6 @@ public class ViewsController{
 
     public static void turnOffCommentBox(){
         try{
-            ViewsController.getCommentSection().setVisibility(View.INVISIBLE);
-
             getAddCommentButton().setEnabled(false);
             getAddCommentButton().setVisibility(View.INVISIBLE);
 
@@ -120,7 +118,6 @@ public class ViewsController{
 
             getTagAndNumberLayout().setVisibility(View.INVISIBLE);
 
-            getCommentSection().setVisibility(View.INVISIBLE);
             getCommentBox().setText("");
             getCommentBox().setEnabled(false);
             getCommentBox().setVisibility(View.INVISIBLE);

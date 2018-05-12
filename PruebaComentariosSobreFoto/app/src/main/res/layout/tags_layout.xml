@@ -7,7 +7,8 @@
     android:id="@+id/tags_layout_id"
     android:layout_marginTop="10dp"
     android:layout_marginRight="10dp"
-    android:layout_marginLeft="10dp">
+    android:layout_marginLeft="10dp"
+    android:background="@drawable/rounded_text">
 
     <ImageView
         android:id="@+id/base_image_id"

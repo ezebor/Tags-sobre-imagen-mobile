@@ -62,7 +62,6 @@ public class MainActivity extends AppCompatActivity{
 
         // Comment section
         ViewsController.setCommentSection((LinearLayout)findViewById(R.id.comment_section_id));
-        ViewsController.getCommentSection().setVisibility(View.INVISIBLE);
 
         ViewsController.setBaseImage((ImageView)findViewById(R.id.base_image_id));
         ViewsController.getBaseImage().setOnTouchListener(new View.OnTouchListener() {
@@ -116,6 +115,7 @@ public class MainActivity extends AppCompatActivity{
                         public void onClick(View button) {
                             ViewsController.getCommentBox().setEnabled(true);
                             ViewsController.getCommentBox().setSelection(ViewsController.getCommentBox().getText().length());
+                            ViewsController.getCommentBox().requestFocus();
                             ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
                         }
                     });
