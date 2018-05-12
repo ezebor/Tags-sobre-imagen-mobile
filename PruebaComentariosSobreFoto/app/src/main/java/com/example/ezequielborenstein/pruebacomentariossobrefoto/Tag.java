@@ -8,7 +8,6 @@ import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 
 public class Tag extends View{
     private int centralPositionOfTag;
@@ -23,24 +22,31 @@ public class Tag extends View{
         this.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View tag, MotionEvent event) {
-                setNextToComment();
+                selectThisTag();
                 return true;
             }
         });
     }
 
-    public void setNextToComment(){
+    public void selectThisTag(){
         // Tag next to comment box
         ViewsController.getNumberOverTag().setText("" + this.numberOfTag);
         ViewsController.getTagAndNumberLayout().setVisibility(VISIBLE);
 
         // Comment box
-        ViewsController.getCommentBox().setEnabled(true);
+        ViewsController.getCommentSection().setVisibility(VISIBLE);
+        ViewsController.getCommentBox().setEnabled(false);
         ViewsController.getCommentBox().setText(this.comment);
-        ViewsController.getCommentBox().setSelection(ViewsController.getCommentBox().getText().length());
+        ViewsController.getCommentBox().setVisibility(VISIBLE);
 
-        // Button to send comment
-        ViewsController.getSendCommentButton().setEnabled(true);
+        ViewsController.getAddCommentButton().setVisibility(VISIBLE);
+        ViewsController.getEditCommentButton().setVisibility(VISIBLE);
+        ViewsController.getDeleteCommentButton().setVisibility(VISIBLE);
+
+
+        ViewsController.getAddCommentButton().setEnabled(true);
+        ViewsController.getEditCommentButton().setEnabled(true);
+        ViewsController.getDeleteCommentButton().setEnabled(true);
     }
 
     public Tag(final Context context, int centralPositionOfTag, int touchX, int touchY){

@@ -1,18 +1,20 @@
 package com.example.ezequielborenstein.pruebacomentariossobrefoto;
 
 import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,22 +31,41 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_id);
+        setSupportActionBar(myToolbar);
+
         tagsAdded = new HashMap<>();
 
-        final EditText commentBox = (EditText) findViewById(R.id.comment_box_id);
-        ViewsController.setCommentBox(commentBox);
-        commentBox.setEnabled(false);
+        ViewsController.setCommentBox((EditText) findViewById(R.id.comment_box_id));
+        ViewsController.getCommentBox().setVisibility(View.INVISIBLE);
+        ViewsController.getCommentBox().setEnabled(false);
 
-        final RelativeLayout tagAndNumberLayout = ((RelativeLayout)findViewById(R.id.tag_and_number_id));
-        ViewsController.setTagAndNumberLayout(tagAndNumberLayout);
-        tagAndNumberLayout.setVisibility(View.INVISIBLE);
+        ViewsController.setTagAndNumberLayout((RelativeLayout)findViewById(R.id.tag_and_number_id));
+        ViewsController.getTagAndNumberLayout().setVisibility(View.INVISIBLE);
 
-        final TextView numberOverTag = (TextView)findViewById(R.id.tag_number_id);
-        ViewsController.setNumberOverTag(numberOverTag);
+        ViewsController.setNumberOverTag((TextView)findViewById(R.id.tag_number_id));
 
-        final ImageView baseImage = (ImageView)findViewById(R.id.base_image_id);
-        ViewsController.setBaseImage(baseImage);
-        baseImage.setOnTouchListener(new View.OnTouchListener() {
+        // Button to add comment of comment box
+        ViewsController.setAddCommentButton((Button) findViewById(R.id.apply_comment_id));
+        ViewsController.getAddCommentButton().setVisibility(View.INVISIBLE);
+        ViewsController.getAddCommentButton().setEnabled(false);
+
+        // Button to edit comment of comment box
+        ViewsController.setEditCommentButton((Button) findViewById(R.id.edit_comment_id));
+        ViewsController.getEditCommentButton().setVisibility(View.INVISIBLE);
+        ViewsController.getEditCommentButton().setEnabled(false);
+
+        // Button to delete comment of comment box
+        ViewsController.setDeleteCommentButton((Button) findViewById(R.id.delete_comment_id));
+        ViewsController.getDeleteCommentButton().setVisibility(View.INVISIBLE);
+        ViewsController.getDeleteCommentButton().setEnabled(false);
+
+        // Comment section
+        ViewsController.setCommentSection((LinearLayout)findViewById(R.id.comment_section_id));
+        ViewsController.getCommentSection().setVisibility(View.INVISIBLE);
+
+        ViewsController.setBaseImage((ImageView)findViewById(R.id.base_image_id));
+        ViewsController.getBaseImage().setOnTouchListener(new View.OnTouchListener() {
 
             final Handler handler = new Handler();
             int touchX;
@@ -53,17 +74,12 @@ public class MainActivity extends AppCompatActivity{
             // This runs when a tag is added over image
             Runnable mLongPressed = new Runnable() {
                 public void run() {
-                    // Button to send comment of comment box
-                    Button sendCommentButton = (Button) findViewById(R.id.apply_comment_id);
-                    ViewsController.setSendCommentButton(sendCommentButton);
-
                     // Keyboard
-                    final InputMethodManager keyboard = (InputMethodManager) getSystemService(commentBox.getContext().INPUT_METHOD_SERVICE);
-                    ViewsController.setKeyboard(keyboard);
-                    keyboard.showSoftInput(commentBox, InputMethodManager.SHOW_IMPLICIT);
+                    ViewsController.setKeyboard((InputMethodManager) getSystemService(ViewsController.getCommentBox().getContext().INPUT_METHOD_SERVICE));
+                    ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
 
                     // Create a tag
-                    final Tag tag = new Tag(baseImage.getContext(), centralPositionOfTag, touchX, touchY);
+                    final Tag tag = new Tag(ViewsController.getBaseImage().getContext(), centralPositionOfTag, touchX, touchY);
 
                     // Draw a tag
                     RelativeLayout baseImageLayout = (RelativeLayout) findViewById(R.id.tags_layout_id);
@@ -71,22 +87,45 @@ public class MainActivity extends AppCompatActivity{
                     TagDrawer.drawTag(tagsAdded, tag);
 
                     // Set pipe/focus into comment box
-                    final EditText commentBox = ((EditText)findViewById(R.id.comment_box_id));
-                    commentBox.setEnabled(true);
-                    commentBox.requestFocus();
+                    ViewsController.getCommentBox().setEnabled(true);
+                    ViewsController.getCommentBox().setVisibility(View.VISIBLE);
+                    ViewsController.getCommentBox().requestFocus();
 
                     // Activate button to send comments when first tag is added
-                    sendCommentButton.setEnabled(true);
-                    sendCommentButton.setOnClickListener(new View.OnClickListener() {
+                    ViewsController.getAddCommentButton().setEnabled(true);
+                    ViewsController.getEditCommentButton().setEnabled(false);
+                    ViewsController.getDeleteCommentButton().setEnabled(true);
+
+                    ViewsController.getAddCommentButton().setVisibility(View.VISIBLE);
+                    ViewsController.getEditCommentButton().setVisibility(View.INVISIBLE);
+                    ViewsController.getDeleteCommentButton().setVisibility(View.VISIBLE);
+
+                    ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
+
+                    ViewsController.getAddCommentButton().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View button) {
                             Tag tagToUpdate = tagsAdded.get(ViewsController.getNumberOverTagAsInteger());
-                            tagToUpdate.setComment(commentBox.getText().toString());
-                            button.setEnabled(false);
-                            tagAndNumberLayout.setVisibility(View.INVISIBLE);
-                            commentBox.setText("");
-                            commentBox.setEnabled(false);
-                            keyboard.hideSoftInputFromWindow(commentBox.getWindowToken(), 0);
+                            tagToUpdate.setComment(ViewsController.getCommentBox().getText().toString());
+                            ViewsController.turnOffCommentBox();
+                        }
+                    });
+
+                    ViewsController.getEditCommentButton().setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View button) {
+                            ViewsController.getCommentBox().setEnabled(true);
+                            ViewsController.getCommentBox().setSelection(ViewsController.getCommentBox().getText().length());
+                            ViewsController.getKeyboard().showSoftInput(ViewsController.getCommentBox(), InputMethodManager.SHOW_IMPLICIT);
+                        }
+                    });
+
+                    ViewsController.getDeleteCommentButton().setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View button) {
+                            ViewsController.turnOffCommentBox();
+                            tagsAdded.remove(ViewsController.getNumberOverTagAsInteger());
+                            TagDrawer.reDrawTags(tagsAdded);
                         }
                     });
                 }
@@ -96,6 +135,10 @@ public class MainActivity extends AppCompatActivity{
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        // Do this to allow clearing comment section if image is touched
+                        ViewsController.turnOffCommentBox();
+                        TagDrawer.reDrawTags(tagsAdded);
+
                         touchX = (int) event.getX();
                         touchY = (int) event.getY();
                         handler.postDelayed(mLongPressed, 200);
