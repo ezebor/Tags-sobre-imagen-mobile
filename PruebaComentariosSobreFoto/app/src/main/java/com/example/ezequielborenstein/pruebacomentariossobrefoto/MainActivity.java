@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -33,12 +34,25 @@ public class MainActivity extends AppCompatActivity{
 
         Toolbar myToolbar = (Toolbar) findViewById(R.id.toolbar_id);
         setSupportActionBar(myToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         tagsAdded = new HashMap<>();
 
         ViewsController.setCommentBox((EditText) findViewById(R.id.comment_box_id));
         ViewsController.getCommentBox().setVisibility(View.INVISIBLE);
         ViewsController.getCommentBox().setEnabled(false);
+
+        ViewsController.getCommentBox().setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if(ViewsController.getCommentBox().getLineCount() == ViewsController.getCommentBox().getMaxLines()){
+                    Integer length = ViewsController.getCommentBox().getText().toString().length();
+                    ViewsController.getCommentBox().setText(ViewsController.getCommentBox().getText().toString().substring(0, length - 1));
+                    ViewsController.getCommentBox().setSelection(ViewsController.getCommentBox().getText().length());
+                }
+                return false;
+            }
+        });
 
         ViewsController.setTagAndNumberLayout((RelativeLayout)findViewById(R.id.tag_and_number_id));
         ViewsController.getTagAndNumberLayout().setVisibility(View.INVISIBLE);
@@ -152,4 +166,16 @@ public class MainActivity extends AppCompatActivity{
             }
         });
     }
+
+    /*
+
+    Modificar este método para que el botón de atrás lleve al activity anterior
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
+    */
 }

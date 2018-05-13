@@ -55,6 +55,11 @@ public class TagDrawer{
                 params.topMargin = tag.getTopMargin();
                 ViewsController.getBaseImageLayout().addView(tag, params);
             }
+        }else{
+            if(ViewsController.getBaseImageLayout() != null){
+                ViewsController.getBaseImageLayout().removeAllViews();
+                ViewsController.getBaseImageLayout().addView(ViewsController.getBaseImage());
+            }
         }
     }
 }
