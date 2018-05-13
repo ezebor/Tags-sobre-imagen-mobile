@@ -42,18 +42,6 @@ public class MainActivity extends AppCompatActivity{
         ViewsController.getCommentBox().setVisibility(View.INVISIBLE);
         ViewsController.getCommentBox().setEnabled(false);
 
-        ViewsController.getCommentBox().setOnKeyListener(new View.OnKeyListener() {
-            @Override
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                if(ViewsController.getCommentBox().getLineCount() == ViewsController.getCommentBox().getMaxLines()){
-                    Integer length = ViewsController.getCommentBox().getText().toString().length();
-                    ViewsController.getCommentBox().setText(ViewsController.getCommentBox().getText().toString().substring(0, length - 1));
-                    ViewsController.getCommentBox().setSelection(ViewsController.getCommentBox().getText().length());
-                }
-                return false;
-            }
-        });
-
         ViewsController.setTagAndNumberLayout((RelativeLayout)findViewById(R.id.tag_and_number_id));
         ViewsController.getTagAndNumberLayout().setVisibility(View.INVISIBLE);
 
