@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:id="@+id/principal_id"
-    android:background="@color/colorWhite">
+    android:background="@color/colorGama4">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal"
             android:layout_margin="10dp"
-            android:background="@drawable/rounded_text"
+            android:background="@drawable/rounded_text_comment_section"
             android:gravity="top"
             android:weightSum="100">
 
@@ -55,7 +55,7 @@
 
             <EditText
                 android:id="@+id/comment_box_id"
-                android:background="@drawable/rounded_text_white"
+                android:background="@drawable/rounded_text_comment_box"
                 android:layout_width="0dp"
                 android:layout_weight="60"
                 android:layout_height="match_parent"

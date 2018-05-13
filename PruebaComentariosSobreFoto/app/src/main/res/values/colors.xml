@@ -9,4 +9,10 @@
     <color name="colorGreyAppBackground">#E7E7E7</color>
     <color name="colorBlack">#000000</color>
     <color name="colorGreen">#009688</color>
+    <color name="colorGama1">#E7E7E7</color>
+    <color name="colorGama2">#FFC300</color>
+    <color name="colorGama3">#FF5733</color>
+    <color name="colorGama4">#C70039</color>
+    <color name="colorGama5">#900C3F</color>
+    <color name="colorGama6">#581845</color>
 </resources>
